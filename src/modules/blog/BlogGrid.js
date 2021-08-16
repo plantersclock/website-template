@@ -8,7 +8,7 @@ const Blog = () => {
     <div className="grid grid-cols-3 gap-3">
       {docs &&
         docs.map((doc) => (
-          <div>
+          <div key={doc.id}>
             <img src={doc.imageUrl} alt="uploadUrl" />
             <div>{doc.blogText}</div>
           </div>

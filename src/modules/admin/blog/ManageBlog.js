@@ -1,10 +1,10 @@
-import Blog from "../../blog/Blog.js";
+import BlogGrid from "../../blog/BlogGrid.js";
 import AddBlog from "./AddBlog";
 
 const ManageBlog = () => {
   return (
     <div>
-      <Blog />
+      <BlogGrid />
       <AddBlog />
     </div>
   );
