@@ -1,4 +1,11 @@
-import { Link, useHistory, useLocation, Switch, Route } from "react-router-dom";
+import {
+  Link,
+  useHistory,
+  useLocation,
+  Switch,
+  Route,
+  useRouteMatch,
+} from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import ManageBlog from "./blog/ManageBlog";
 import AddBlog from "./blog/AddBlog";
@@ -26,6 +33,7 @@ const Admin = () => {
   const currentPageName = navigation.find(
     ({ href }) => href === location.pathname
   )?.name;
+  let { path } = useRouteMatch();
 
   const handleLogout = async () => {
     console.log("logging out");
@@ -241,8 +249,8 @@ const Admin = () => {
               {/* Replace with your content */}
               <div>{error}</div>
               <Switch>
-                <Route exact path="/admin/blog" component={ManageBlog} />
-                <Route exact path="/admin/blog/add" component={AddBlog} />
+                <Route exact path={`${path}/blog`} component={ManageBlog} />
+                <Route exact path={`${path}/blog/add`} component={AddBlog} />
               </Switch>
               {/* /End replace */}
             </div>
