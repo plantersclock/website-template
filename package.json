@@ -38,6 +38,7 @@
   },
   "reactSnap": {
     "source": "build",
+    "fixWebpackChunksIssue": false,
     "minifyHtml": {
       "collapseWhitespace": false,
       "removeComments": false
