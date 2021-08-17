@@ -1,20 +1,24 @@
 import React from "react";
 import useFirestore from "../../hooks/useFirestore";
+import BlogCard from "./BlogCard";
 
-const Blog = () => {
-  const { docs } = useFirestore("blog-posts");
-  console.log(docs);
+const BlogGrid = ({ displayCount = 6 }) => {
+  const { docs } = useFirestore("blog-posts", displayCount);
+
   return (
-    <div className="grid grid-cols-3 gap-3">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
       {docs &&
         docs.map((doc) => (
-          <div key={doc.id}>
-            <img src={doc.imageUrl} alt="uploadUrl" />
-            <div>{doc.blogText}</div>
-          </div>
+          <BlogCard
+            key={doc.id}
+            text={doc.blogText}
+            title={doc.blogTitle}
+            publishDate={doc.publishDate}
+            imageUrl={doc.image480Url}
+          />
         ))}
     </div>
   );
 };
 
-export default Blog;
+export default BlogGrid;

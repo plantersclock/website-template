@@ -17,10 +17,14 @@
     "@types/react-dom": "^17.0.0",
     "autoprefixer": "^9",
     "firebase": "^8.9.1",
+    "framer-motion": "^4.1.17",
     "postcss": "^7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-image-file-resizer": "^0.4.7",
+    "react-lazyload": "^3.2.0",
     "react-scripts": "4.0.3",
+    "react-snap": "^1.23.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "typescript": "4.2.4",
     "web-vitals": "^1.0.1"
@@ -29,7 +33,17 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "postbuild": "react-snap",
+    "build:snap": "craco build && react-snap"
+  },
+  "reactSnap": {
+    "source": "build",
+    "minifyHtml": {
+      "collapseWhitespace": false,
+      "removeComments": false
+    },
+    "inlineCss": true
   },
   "eslintConfig": {
     "extends": [

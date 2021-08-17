@@ -1,6 +1,7 @@
 import { Link, useHistory, useLocation, Switch, Route } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import ManageBlog from "./blog/ManageBlog";
+import AddBlog from "./blog/AddBlog";
 
 /* This example requires Tailwind CSS v2.0+ */
 import { Fragment, useState } from "react";
@@ -8,8 +9,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import { HomeIcon, MenuIcon, UsersIcon, XIcon } from "@heroicons/react/outline";
 
 const navigation = [
-  { name: "Dashboard", href: "/admin", icon: HomeIcon, current: true },
-  { name: "Blog", href: "/admin/blog", icon: UsersIcon, current: false },
+  { name: "Dashboard", href: "/admin", icon: HomeIcon },
+  { name: "Blog", href: "/admin/blog", icon: UsersIcon },
 ];
 
 function classNames(...classes: string[]) {
@@ -22,8 +23,9 @@ const Admin = () => {
   const { currentUser, logout } = useAuth();
   const history = useHistory();
   const location = useLocation();
-
-  console.log(location.pathname);
+  const currentPageName = navigation.find(
+    ({ href }) => href === location.pathname
+  )?.name;
 
   const handleLogout = async () => {
     console.log("logging out");
@@ -99,7 +101,7 @@ const Admin = () => {
                       key={item.name}
                       to={item.href}
                       className={classNames(
-                        item.current
+                        location.pathname === item.href
                           ? "bg-gray-900 text-white"
                           : "text-gray-300 hover:bg-gray-700 hover:text-white",
                         "group flex items-center px-2 py-2 text-base font-medium rounded-md"
@@ -178,7 +180,7 @@ const Admin = () => {
                   >
                     <item.icon
                       className={classNames(
-                        item.current
+                        location.pathname === item.href
                           ? "text-gray-300"
                           : "text-gray-400 group-hover:text-gray-300",
                         "mr-3 flex-shrink-0 h-6 w-6"
@@ -232,14 +234,15 @@ const Admin = () => {
           <div className="py-6">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <h1 className="text-2xl font-semibold text-gray-900">
-                Dashboard
+                {currentPageName}
               </h1>
             </div>
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-4">
               {/* Replace with your content */}
               <div>{error}</div>
               <Switch>
                 <Route exact path="/admin/blog" component={ManageBlog} />
+                <Route exact path="/admin/blog/add" component={AddBlog} />
               </Switch>
               {/* /End replace */}
             </div>
