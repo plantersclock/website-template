@@ -11,7 +11,8 @@ const BlogGrid = ({ displayCount = 6 }) => {
         docs.map((doc) => (
           <BlogCard
             key={doc.id}
-            text={doc.blogText}
+            id={doc.id}
+            text={doc.blogSummary}
             title={doc.blogTitle}
             publishDate={doc.publishDate}
             imageUrl={doc.image480Url}

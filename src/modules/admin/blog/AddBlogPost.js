@@ -7,12 +7,13 @@ import { PhotographIcon } from "@heroicons/react/outline";
 import { motion } from "framer-motion";
 import ClipLoader from "react-spinners/ClipLoader";
 
-const AddBlog = () => {
+const AddBlogPost = () => {
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const blogTitleRef = useRef(null);
-  const blogTextRef = useRef(null);
+  const blogSummaryRef = useRef(null);
+  const blogContentRef = useRef(null);
   const publishDateRef = useRef(null);
   const history = useHistory();
 
@@ -44,7 +45,8 @@ const AddBlog = () => {
       image200Url,
       image480Url,
       blogTitle: blogTitleRef.current.value,
-      blogText: blogTextRef.current.value,
+      blogSummary: blogSummaryRef.current.value,
+      blogContent: blogContentRef.current.value,
       publishDate: new Date(publishDateRef.current.value),
       createdAt,
     });
@@ -92,7 +94,7 @@ const AddBlog = () => {
         <div className="w-72">
           <label htmlFor="file-upload">
             <div className="my-2 bg-white text-center py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              Upload Photo
+              Upload Main Photo
             </div>
           </label>
         </div>
@@ -129,24 +131,45 @@ const AddBlog = () => {
         </div>
         <div className="mt-3">
           <label
-            htmlFor="blog-text"
+            htmlFor="blog-summary"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Summary
+          </label>
+          <div className="mt-1">
+            <textarea
+              id="blog-summary"
+              name="blog-summary"
+              ref={blogSummaryRef}
+              required
+              rows={4}
+              className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md"
+              defaultValue={""}
+              placeholder="Give this blog post a summary to be displayed in searches"
+            />
+          </div>
+        </div>
+        <div className="mt-3">
+          <label
+            htmlFor="blog-content"
             className="block text-sm font-medium text-gray-700"
           >
             Content
           </label>
           <div className="mt-1">
             <textarea
-              id="blog-text"
-              name="blog-text"
-              ref={blogTextRef}
+              id="blog-content"
+              name="blog-content"
+              ref={blogContentRef}
               required
-              rows={5}
+              rows={10}
               className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md"
               defaultValue={""}
-              placeholder="Give this post some content"
+              placeholder="Put the main content for the blog post here"
             />
           </div>
         </div>
+
         <div className="mt-3">
           <label
             htmlFor="blog-publish-date"
@@ -178,4 +201,4 @@ const AddBlog = () => {
   );
 };
 
-export default AddBlog;
+export default AddBlogPost;

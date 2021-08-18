@@ -8,7 +8,9 @@ import {
 } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import ManageBlog from "./blog/ManageBlog";
-import AddBlog from "./blog/AddBlog";
+import AddBlogPost from "./blog/AddBlogPost";
+import UpdateBlogPost from "./blog/UpdateBlogPost";
+import PreviewBlogPost from "./blog/PreviewBlogPost";
 import LazyLoad from "react-lazyload";
 
 /* This example requires Tailwind CSS v2.0+ */
@@ -253,7 +255,20 @@ const Admin = () => {
               <div>{error}</div>
               <Switch>
                 <Route exact path={`${path}/blog`} component={ManageBlog} />
-                <Route exact path={`${path}/blog/add`} component={AddBlog} />
+                <Route
+                  exact
+                  path={`${path}/blog/add`}
+                  component={AddBlogPost}
+                />
+                <Route
+                  exact
+                  path={`${path}/blog/:id`}
+                  component={PreviewBlogPost}
+                />
+                <Route
+                  path={`${path}/blog/update/:id`}
+                  component={UpdateBlogPost}
+                />
               </Switch>
               {/* /End replace */}
             </div>
