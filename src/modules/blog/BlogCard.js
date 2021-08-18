@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import LazyLoad from "react-lazyload";
+import LineEllipsis from "react-lines-ellipsis";
 
 const BlogCard = ({ imageUrl, title, text, publishDate }) => {
   const options = {
@@ -20,23 +21,31 @@ const BlogCard = ({ imageUrl, title, text, publishDate }) => {
       transition={{ delay: 1 }}
       className="rounded-lg bg-white shadow-lg overflow-hidden"
     >
-      <div className="overflow-hidden w-full h-60">
+      <div className="overflow-hidden w-full h-72">
         <LazyLoad>
           <motion.img
             whileHover={{ scale: 1.2 }}
-            className="w-full h-60 object-cover"
+            className="w-full h-72 object-cover"
             src={imageUrl}
             alt="blog upload"
           />
         </LazyLoad>
       </div>
 
-      <div className="h-60 p-5 relative">
+      <div className="h-60 p-5 relative overflow-hidden">
         <h2 className="font-bold text-gray-900 font-semibold text-xl">
           {title}
         </h2>
+        <div className="text-base mt-3 text-gray-500">
+          <LineEllipsis
+            text={text}
+            maxLine="4"
+            ellipsis="..."
+            basedOn="letters"
+            className="whitespace-pre-wrap"
+          />
+        </div>
 
-        <p className="text-base mt-3 text-gray-500">{text}</p>
         <h3 className="font-light text-gray-400 text-xs absolute bottom-2 right-2">
           Published:{publishDate}
         </h3>

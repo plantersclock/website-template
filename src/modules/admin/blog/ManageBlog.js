@@ -13,9 +13,9 @@ const ManageBlog = () => {
       <div className="flex justify-end">
         <Link
           to="/admin/blog/add"
-          className="rounded-md py-1 px-2 bg-blue-500 text-white font-bold w-auto"
+          className="rounded-md py-1 px-2 bg-blue-700 hover:bg-blue-800 text-white font-md w-auto"
         >
-          Add Blog
+          Create Blog Post
         </Link>
       </div>
 
@@ -24,7 +24,7 @@ const ManageBlog = () => {
       <div className="mt-4 flex justify-center">
         <div
           onClick={handleShowMoreClick}
-          className="rounded-md py-1 px-2 bg-blue-500 text-white font-bold w-auto"
+          className="rounded-md cursor-pointer py-1 px-2 bg-gray-300 hover:bg-gray-400 text-gray-500 text-sm w-auto"
         >
           Show More
         </div>

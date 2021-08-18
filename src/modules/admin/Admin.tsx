@@ -9,6 +9,7 @@ import {
 import { useAuth } from "../../contexts/AuthContext";
 import ManageBlog from "./blog/ManageBlog";
 import AddBlog from "./blog/AddBlog";
+import LazyLoad from "react-lazyload";
 
 /* This example requires Tailwind CSS v2.0+ */
 import { Fragment, useState } from "react";
@@ -17,7 +18,7 @@ import { HomeIcon, MenuIcon, UsersIcon, XIcon } from "@heroicons/react/outline";
 
 const navigation = [
   { name: "Dashboard", href: "/admin", icon: HomeIcon },
-  { name: "Blog", href: "/admin/blog", icon: UsersIcon },
+  { name: "Blog Maintenance", href: "/admin/blog", icon: UsersIcon },
 ];
 
 function classNames(...classes: string[]) {
@@ -133,11 +134,13 @@ const Admin = () => {
                 <div className="flex-shrink-0 group block">
                   <div className="flex items-center">
                     <div>
-                      <img
-                        className="inline-block h-10 w-10 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
-                      />
+                      <LazyLoad>
+                        <img
+                          className="inline-block h-10 w-10 rounded-full"
+                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                          alt=""
+                        />
+                      </LazyLoad>
                     </div>
                     <div className="ml-3">
                       <p className="text-base font-medium text-white">
@@ -241,7 +244,7 @@ const Admin = () => {
         <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none">
           <div className="py-6">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <h1 className="text-2xl font-semibold text-gray-900">
+              <h1 className="text-4xl font-semibold text-gray-900">
                 {currentPageName}
               </h1>
             </div>

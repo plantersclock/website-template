@@ -3,10 +3,14 @@ import { useHistory } from "react-router-dom";
 import { projectFirestore, timestamp } from "../../../firebase";
 import useStorage from "../../../hooks/useStorage";
 import { getThumbnailUrl } from "../../../helpers/getThumbnailUrl";
+import { PhotographIcon } from "@heroicons/react/outline";
+import { motion } from "framer-motion";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const AddBlog = () => {
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const blogTitleRef = useRef(null);
   const blogTextRef = useRef(null);
   const publishDateRef = useRef(null);
@@ -20,6 +24,7 @@ const AddBlog = () => {
   const changeHandler = (e) => {
     let selectedFile = e.target.files[0];
 
+    setLoading(true);
     if (selectedFile && types.includes(selectedFile.type)) {
       setFile(selectedFile);
       setError("");
@@ -51,28 +56,122 @@ const AddBlog = () => {
     if (url) {
       setFile(null);
     }
-  }, [url, setFile, fileName]);
+  }, [url, setFile]);
+
+  useEffect(() => {
+    if (progress && progress < 100) {
+      setLoading(true);
+    } else setLoading(false);
+  }, [progress, setLoading]);
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <input type="file" onChange={changeHandler} required />
-        <div>
-          {error && <div>{error}</div>}
-          {file && <div>{file.name}</div>}
-          {fileName && <div>{fileName}</div>}
-          {file && <div>{progress}</div>}
-          {url && <img src={url} alt="uploaded" />}
+        <div className="h-72 w-72">
+          {!url && !loading && !file && (
+            <div className="rounded-lg border-2 border-gray-300 border-dashed font-medium text-gray-300 h-72 w-72">
+              <PhotographIcon />
+            </div>
+          )}
+          {loading && (
+            <div className=" rounded-lg border-2 border-gray-300 border-dashed font-medium text-gray-300 h-72 w-72 flex justify-center items-center">
+              <ClipLoader color={"blue"} />
+            </div>
+          )}
+          {!loading && url && (
+            <motion.img
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1 }}
+              src={url}
+              alt="uploaded"
+              className="object-cover rounded-lg h-72 w-72"
+            />
+          )}
+        </div>
+        <div className="w-72">
+          <label htmlFor="file-upload">
+            <div className="my-2 bg-white text-center py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              Upload Photo
+            </div>
+          </label>
+        </div>
+        <input
+          id="file-upload"
+          name="file-upload"
+          type="file"
+          className="sr-only"
+          onChange={changeHandler}
+          required
+        />
+
+        <div>{error && <div>{error}</div>}</div>
+
+        <div className="mt-3">
+          <label
+            htmlFor="blog-title"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Title
+          </label>
+          <div className="mt-1">
+            <input
+              ref={blogTitleRef}
+              required
+              id="blog-title"
+              name="blog-title"
+              type="text"
+              autoComplete="off"
+              placeholder="Title the blog post"
+              className="max-w-sm shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+            />
+          </div>
+        </div>
+        <div className="mt-3">
+          <label
+            htmlFor="blog-text"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Content
+          </label>
+          <div className="mt-1">
+            <textarea
+              id="blog-text"
+              name="blog-text"
+              ref={blogTextRef}
+              required
+              rows={5}
+              className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md"
+              defaultValue={""}
+              placeholder="Give this post some content"
+            />
+          </div>
+        </div>
+        <div className="mt-3">
+          <label
+            htmlFor="blog-publish-date"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Publish Date
+          </label>
+          <div className="mt-1">
+            <input
+              ref={publishDateRef}
+              required
+              id="blog-publish-date"
+              name="blog-publish-date"
+              type="date"
+              autoComplete="off"
+              className="max-w-xs shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+            />
+          </div>
         </div>
 
-        <input type="text" ref={blogTitleRef} required />
-        <textarea className="border w-full h-48" ref={blogTextRef} required />
-        <input type="date" ref={publishDateRef} required />
         <button
-          className="block bg-blue-500 text-white font-bold py-1 px-2 rounded"
+          className="mt-3 block bg-blue-500 text-white font-bold py-1 px-2 rounded"
           type="submit"
         >
-          Add Blog
+          Submit
         </button>
       </form>
     </div>
