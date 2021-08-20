@@ -15,7 +15,7 @@ const BlogGrid = ({ displayCount = 6 }) => {
             text={doc.blogSummary}
             title={doc.blogTitle}
             publishDate={doc.publishDate}
-            imageUrl={doc.image480Url}
+            imageUrl={doc.imageUrl}
           />
         ))}
     </div>

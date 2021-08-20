@@ -1,6 +1,6 @@
 import { projectStorage } from "../firebase";
 
-export const getThumbnailUrl = async (fileName, size = null) => {
+export const getImageFromName = async (fileName, size = null) => {
   // const [url, setUrl] = useState(null);
 
   console.log(fileName);

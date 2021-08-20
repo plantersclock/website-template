@@ -11,6 +11,7 @@ import ManageBlog from "./blog/ManageBlog";
 import AddBlogPost from "./blog/AddBlogPost";
 import UpdateBlogPost from "./blog/UpdateBlogPost";
 import PreviewBlogPost from "./blog/PreviewBlogPost";
+import ImageSelect from "../common/ImageSelect";
 import LazyLoad from "react-lazyload";
 
 /* This example requires Tailwind CSS v2.0+ */
@@ -21,6 +22,7 @@ import { HomeIcon, MenuIcon, UsersIcon, XIcon } from "@heroicons/react/outline";
 const navigation = [
   { name: "Dashboard", href: "/admin", icon: HomeIcon },
   { name: "Blog Maintenance", href: "/admin/blog", icon: UsersIcon },
+  { name: "Images", href: "/admin/images", icon: UsersIcon },
 ];
 
 function classNames(...classes: string[]) {
@@ -269,6 +271,7 @@ const Admin = () => {
                   path={`${path}/blog/update/:id`}
                   component={UpdateBlogPost}
                 />
+                <Route path={`${path}/images`} component={ImageSelect} />
               </Switch>
               {/* /End replace */}
             </div>

@@ -4,8 +4,12 @@ import LazyLoad from "react-lazyload";
 import LineEllipsis from "react-lines-ellipsis";
 import { Link } from "react-router-dom";
 
+import useStorageThumbnails from "../../hooks/useStorageThumbnails";
+
 const BlogCard = ({ imageUrl, title, text, publishDate, id }) => {
   const [cardHovered, setCardHovered] = useState(false);
+
+  const { resizedImageUrl } = useStorageThumbnails(imageUrl, 480);
   const options = {
     timeZone: "UTC",
   };
@@ -31,8 +35,8 @@ const BlogCard = ({ imageUrl, title, text, publishDate, id }) => {
             <motion.img
               animate={cardHovered ? { scale: 1.2 } : { scale: 1 }}
               className="w-full h-72 object-cover"
-              src={imageUrl}
-              alt="blog upload"
+              src={resizedImageUrl}
+              alt={imageUrl}
             />
           </LazyLoad>
         </div>

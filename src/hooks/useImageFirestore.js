@@ -1,19 +1,14 @@
 import { useState, useEffect } from "react";
 import { projectFirestore } from "../firebase";
 
-const useFirestore = (collectionName, limit = 100, published = false) => {
+const useImageFirestore = (limit = 100) => {
   const [docs, setDocs] = useState([]);
 
   useEffect(() => {
-    let currentTime = new Date(9999, 1, 1);
-    if (published) {
-      currentTime = new Date();
-    }
-
     const unsubscribe = projectFirestore
-      .collection(collectionName)
-      .where("publishDate", "<", currentTime)
-      .orderBy("publishDate", "desc")
+      .collection("image")
+
+      .orderBy("createdAt", "desc")
       .limit(limit)
       .onSnapshot((snap) => {
         let documents = [];
@@ -24,9 +19,9 @@ const useFirestore = (collectionName, limit = 100, published = false) => {
       });
 
     return () => unsubscribe();
-  }, [collectionName, limit, published]);
+  }, [limit]);
 
   return { docs };
 };
 
-export default useFirestore;
+export default useImageFirestore;
