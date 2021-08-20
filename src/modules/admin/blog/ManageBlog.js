@@ -6,7 +6,6 @@ const ManageBlog = ({ docs, setDisplayCount, displayCount }) => {
     setDisplayCount((prevDisplayCount) => prevDisplayCount + 3);
   };
 
-  console.log(docs);
   return (
     <>
       {docs && (

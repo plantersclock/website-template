@@ -23,8 +23,6 @@ const BlogCard = ({
     image480Url
   );
 
-  console.log(resizedImageUrl);
-
   return (
     <Link to={`/admin/blog/${id}`}>
       <motion.div
