@@ -13,6 +13,7 @@ import UpdateBlogPost from "./blog/UpdateBlogPost";
 import PreviewBlogPost from "./blog/PreviewBlogPost";
 import ImageSelect from "../common/ImageSelect";
 import LazyLoad from "react-lazyload";
+import useFirestore from "../../hooks/useFirestore";
 
 /* This example requires Tailwind CSS v2.0+ */
 import { Fragment, useState } from "react";
@@ -33,12 +34,14 @@ const Admin = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [error, setError] = useState("");
   const { currentUser, logout } = useAuth();
+  const [displayCount, setDisplayCount] = useState(6);
   const history = useHistory();
   const location = useLocation();
   const currentPageName = navigation.find(
     ({ href }) => href === location.pathname
   )?.name;
   let { path } = useRouteMatch();
+  const { docs } = useFirestore("blog-posts", displayCount);
 
   const handleLogout = async () => {
     console.log("logging out");
@@ -256,7 +259,17 @@ const Admin = () => {
               {/* Replace with your content */}
               <div>{error}</div>
               <Switch>
-                <Route exact path={`${path}/blog`} component={ManageBlog} />
+                <Route
+                  exact
+                  path={`${path}/blog`}
+                  component={() => (
+                    <ManageBlog
+                      docs={docs}
+                      setDisplayCount={setDisplayCount}
+                      displayCount={displayCount}
+                    />
+                  )}
+                />
                 <Route
                   exact
                   path={`${path}/blog/add`}
