@@ -69,14 +69,16 @@ const ImageSelect = ({ setSelectedUrl, defaultUrl = null }) => {
                 </div>
               </div>
             ))}
-          <div
-            className="text-center bg-gray-200 hover:bg-gray-300"
-            onClick={() =>
-              setDisplayCount((prevDisplayCount) => prevDisplayCount + 10)
-            }
-          >
-            Show More
-          </div>
+          {displayCount.length > 50 && (
+            <div
+              className="text-center bg-gray-200 hover:bg-gray-300"
+              onClick={() =>
+                setDisplayCount((prevDisplayCount) => prevDisplayCount + 10)
+              }
+            >
+              Show More
+            </div>
+          )}
         </div>
         <div className="flex justify-end">
           <button

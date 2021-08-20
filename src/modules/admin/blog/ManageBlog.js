@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import BlogGrid from "../../blog/BlogGrid.js";
+import useFirestore from "../../../hooks/useFirestore";
 
 const ManageBlog = () => {
   const [displayCount, setDisplayCount] = useState(6);
+  const { docs } = useFirestore("blog-posts", displayCount);
 
   const handleShowMoreClick = () => {
     setDisplayCount((prevDisplayCount) => prevDisplayCount + 3);
@@ -20,15 +22,21 @@ const ManageBlog = () => {
       </div>
 
       <div className="mt-4"></div>
-      <BlogGrid displayCount={displayCount} />
-      <div className="mt-4 flex justify-center">
-        <div
-          onClick={handleShowMoreClick}
-          className="rounded-md cursor-pointer py-1 px-2 bg-gray-300 hover:bg-gray-400 text-gray-500 text-sm w-auto"
-        >
-          Show More
-        </div>
-      </div>
+      {docs && (
+        <>
+          <BlogGrid displayCount={displayCount} docs={docs} />
+          <div className="mt-4 flex justify-center">
+            {docs.length > 6 && (
+              <div
+                onClick={handleShowMoreClick}
+                className="rounded-md cursor-pointer py-1 px-2 bg-gray-300 hover:bg-gray-400 text-gray-500 text-sm w-auto"
+              >
+                Show More
+              </div>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };

@@ -1,10 +1,8 @@
 import React from "react";
-import useFirestore from "../../hooks/useFirestore";
+
 import BlogCard from "./BlogCard";
 
-const BlogGrid = ({ displayCount = 6 }) => {
-  const { docs } = useFirestore("blog-posts", displayCount);
-
+const BlogGrid = ({ docs }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
       {docs &&

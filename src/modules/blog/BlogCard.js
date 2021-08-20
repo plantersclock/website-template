@@ -25,20 +25,22 @@ const BlogCard = ({ imageUrl, title, text, publishDate, id }) => {
         layout
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
+        transition={{ delay: 0.5 }}
         onMouseEnter={() => setCardHovered(true)}
         onMouseLeave={() => setCardHovered(false)}
         className="rounded-lg bg-white shadow-lg overflow-hidden"
       >
         <div className="overflow-hidden w-full h-72">
-          <LazyLoad>
-            <motion.img
-              animate={cardHovered ? { scale: 1.2 } : { scale: 1 }}
-              className="w-full h-72 object-cover"
-              src={resizedImageUrl}
-              alt={imageUrl}
-            />
-          </LazyLoad>
+          {resizedImageUrl && (
+            <LazyLoad>
+              <motion.img
+                animate={cardHovered ? { scale: 1.2 } : { scale: 1 }}
+                className="w-full h-72 object-cover"
+                src={resizedImageUrl}
+                alt={imageUrl}
+              />
+            </LazyLoad>
+          )}
         </div>
 
         <div className="h-60 p-5 relative overflow-hidden">
