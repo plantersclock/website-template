@@ -14,6 +14,7 @@ const BlogGrid = ({ docs }) => {
             title={doc.blogTitle}
             publishDate={doc.publishDate}
             imageUrl={doc.imageUrl}
+            image480Url={doc.image480Url}
           />
         ))}
     </div>
