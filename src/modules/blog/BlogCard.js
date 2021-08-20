@@ -57,9 +57,9 @@ const BlogCard = ({ imageUrl, title, text, publishDate, id }) => {
             />
           </div>
 
-          <h3 className="font-light text-gray-400 text-xs absolute bottom-2 right-2">
+          <div className="font-light text-gray-400 text-xs absolute bottom-2 right-2">
             Published:{publishDate}
-          </h3>
+          </div>
         </div>
       </motion.div>
     </Link>

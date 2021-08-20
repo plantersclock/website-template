@@ -43,6 +43,12 @@ const UpdateBlogPost = () => {
     <div>
       {blogData && (
         <>
+          <label
+            htmlFor="file-upload"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Select Main Image
+          </label>
           <ImageSelect setSelectedUrl={setUrl} defaultUrl={blogData.imageUrl} />
           <form onSubmit={handleSubmit}>
             <div>{error && <div>{error}</div>}</div>

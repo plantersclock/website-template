@@ -7,7 +7,11 @@ import { timestampToDate } from "../../helpers/timestampToDate";
 import { PhotographIcon } from "@heroicons/react/outline";
 import { motion } from "framer-motion";
 
-const ImageSelect = ({ setSelectedUrl, defaultUrl = null }) => {
+const ImageSelect = ({
+  className = null,
+  setSelectedUrl,
+  defaultUrl = null,
+}) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [displayCount, setDisplayCount] = useState(50);
   const [selectedImage, setSelectedImage] = useState(defaultUrl);
@@ -20,7 +24,12 @@ const ImageSelect = ({ setSelectedUrl, defaultUrl = null }) => {
   }, [selectedImage, setSelectedUrl]);
 
   return (
-    <div className="flex flex-col items-center sm:items-start sm:flex-row md:flex-col lg:flex-row">
+    <div
+      className={
+        "flex flex-col items-center sm:items-start sm:flex-row md:flex-col lg:flex-row " +
+        className
+      }
+    >
       <div className="h-72 w-full sm:w-72 md:w-96">
         {!selectedImage && (
           <div className="rounded-lg border-2 border-gray-300 border-dashed font-medium text-gray-300 w-72 h-72 md:w-96 flex justify-center">
@@ -59,13 +68,13 @@ const ImageSelect = ({ setSelectedUrl, defaultUrl = null }) => {
                     size={200}
                   />
                 </div>
-                <div className=" flex items-center">
+                <div className=" flex w-full items-center justify-between">
+                  <div className="ml-6">{doc.title}</div>
                   {doc.createdAt && (
-                    <div className="ml-3">
+                    <div className="mr-3">
                       {timestampToDate(doc.createdAt.seconds * 1000)}
                     </div>
                   )}
-                  <div className="ml-6">{doc.title}</div>
                 </div>
               </div>
             ))}

@@ -75,9 +75,15 @@ const ImageUploader = ({ modalOpen, setModalOpen, setSelectedImage }) => {
             className="bg-white p-12 rounded-lg m-auto mt-10 relative"
           >
             <form onSubmit={handleFormSubmit}>
+              <label
+                htmlFor="file-upload"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Upload Image
+              </label>
               <label htmlFor="file-upload">
                 {!file && (
-                  <div className="rounded-lg border-2 border-gray-300 border-dashed font-medium text-gray-300 h-72 w-72">
+                  <div className="mt-1 cursor-pointer rounded-lg border-2 border-gray-300 border-dashed font-medium text-gray-300 h-72 w-72 hover:text-gray-400">
                     <UploadIcon />
                   </div>
                 )}

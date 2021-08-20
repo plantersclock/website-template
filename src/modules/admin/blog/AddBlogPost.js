@@ -38,7 +38,13 @@ const AddBlogPost = () => {
 
   return (
     <div>
-      <ImageSelect setSelectedUrl={setUrl} />
+      <label
+        htmlFor="file-upload"
+        className="block text-sm font-medium text-gray-700"
+      >
+        Select Main Image
+      </label>
+      <ImageSelect className="mt-1" setSelectedUrl={setUrl} />
       <form onSubmit={handleSubmit}>
         <div>{error && <div>{error}</div>}</div>
 
