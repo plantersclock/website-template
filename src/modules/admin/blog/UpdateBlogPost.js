@@ -1,17 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { projectFirestore, timestamp } from "../../../firebase";
-import useStorage from "../../../hooks/useStorage";
 
-import { motion } from "framer-motion";
-import ClipLoader from "react-spinners/ClipLoader";
 import useFirestoreById from "../../../hooks/useFirestoreById";
 import ImageSelect from "../../common/ImageSelect";
 
 const UpdateBlogPost = () => {
-  const [file, setFile] = useState(null);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
   const [url, setUrl] = useState(null);
   const blogTitleRef = useRef(null);
   const blogSummaryRef = useRef(null);
@@ -19,52 +14,30 @@ const UpdateBlogPost = () => {
   const publishDateRef = useRef(null);
   const history = useHistory();
   const { id } = useParams();
-  const types = ["image/png", "image/jpeg", "image/webp"];
+
   const { blogData } = useFirestoreById("blog-posts", id);
-  // const { url, progress } = useStorage(file);
 
   const blogCollectionRef = projectFirestore.collection("blog-posts");
-
-  // const changeHandler = (e) => {
-  //   let selectedFile = e.target.files[0];
-
-  //   setLoading(true);
-  //   if (selectedFile && types.includes(selectedFile.type)) {
-  //     setFile(selectedFile);
-  //     setError("");
-  //   } else {
-  //     setFile(null);
-  //     setError("Please select an image file (png or jpeg)");
-  //   }
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const createdAt = timestamp();
-    blogCollectionRef.doc(id).update({
-      imageUrl: url || blogData.imageUrl,
-      blogTitle: blogTitleRef.current.value,
-      blogSummary: blogSummaryRef.current.value,
-      blogContent: blogContentRef.current.value,
-      publishDate: new Date(publishDateRef.current.value),
-      createdAt,
-    });
-    setFile(null);
-    history.push("/admin/blog");
+    try {
+      const createdAt = timestamp();
+      blogCollectionRef.doc(id).update({
+        imageUrl: url || blogData.imageUrl,
+        blogTitle: blogTitleRef.current.value,
+        blogSummary: blogSummaryRef.current.value,
+        blogContent: blogContentRef.current.value,
+        publishDate: new Date(publishDateRef.current.value),
+        createdAt,
+      });
+
+      history.push("/admin/blog");
+    } catch (error) {
+      setError(error);
+    }
   };
-
-  // useEffect(() => {
-  //   if (url) {
-  //     setFile(null);
-  //   }
-  // }, [url, setFile]);
-
-  // useEffect(() => {
-  //   if (progress && progress < 100) {
-  //     setLoading(true);
-  //   } else setLoading(false);
-  // }, [progress, setLoading]);
 
   return (
     <div>
@@ -177,37 +150,3 @@ const UpdateBlogPost = () => {
 };
 
 export default UpdateBlogPost;
-
-{
-  /* <div className="h-72 w-72">
-            {loading && (
-              <div className=" rounded-lg border-2 border-gray-300 border-dashed font-medium text-gray-300 h-72 w-72 flex justify-center items-center">
-                <ClipLoader color={"blue"} />
-              </div>
-            )}
-            {!loading && (
-              <motion.img
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1 }}
-                src={url || blogData.imageUrl}
-                alt="uploaded"
-                className="object-cover rounded-lg h-72 w-72"
-              />
-            )}
-          </div>
-          <div className="w-72">
-            <label htmlFor="file-upload">
-              <div className="my-2 bg-white text-center py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Upload Main Photo
-              </div>
-            </label>
-          </div>
-          <input
-            id="file-upload"
-            name="file-upload"
-            type="file"
-            className="sr-only"
-            onChange={changeHandler}
-          /> */
-}

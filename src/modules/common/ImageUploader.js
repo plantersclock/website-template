@@ -4,15 +4,18 @@ import React, { useRef, useState } from "react";
 import { compressImage } from "../../helpers/compressImage";
 import { addToDatabase } from "../../helpers/addToDatabase";
 import { uploadImage } from "../../helpers/uploadImage";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const ImageUploader = ({ modalOpen, setModalOpen, setSelectedImage }) => {
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const imageTitleRef = useRef();
   const modalRef = useRef();
 
   const handleModalClose = (e) => {
+    if (loading) return;
     if (!modalRef.current?.contains(e.target)) {
       setModalOpen(false);
     }
@@ -37,21 +40,22 @@ const ImageUploader = ({ modalOpen, setModalOpen, setSelectedImage }) => {
       setError("Image must have a title");
       return;
     }
-    const url = await uploadImage(file, imageTitleRef.current.value);
-    let status = await addToDatabase("image", {
-      url,
-      title: imageTitleRef.current.value,
-    });
+    setLoading(true);
 
-    console.log(status);
-    if (status?.error) {
-      setError("Image Failed to upload. Reach out to Admin");
-    } else {
-      // This is where we might do something to push the data up
+    try {
+      const url = await uploadImage(file, imageTitleRef.current.value);
+      let status = await addToDatabase("image", {
+        url,
+        title: imageTitleRef.current.value,
+      });
+      console.log(status);
       setModalOpen(false);
       setFile(null);
+      setLoading(false);
       setError("");
       setSelectedImage(url);
+    } catch (error) {
+      setError(error);
     }
   };
   return (
@@ -68,7 +72,7 @@ const ImageUploader = ({ modalOpen, setModalOpen, setSelectedImage }) => {
             initial={{ y: -100 }}
             animate={{ y: 0 }}
             ref={modalRef}
-            className="bg-white p-12 rounded-lg m-auto mt-10"
+            className="bg-white p-12 rounded-lg m-auto mt-10 relative"
           >
             <form onSubmit={handleFormSubmit}>
               <label htmlFor="file-upload">
@@ -78,14 +82,25 @@ const ImageUploader = ({ modalOpen, setModalOpen, setSelectedImage }) => {
                   </div>
                 )}
                 {file && (
-                  <motion.img
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1 }}
-                    src={URL.createObjectURL(file)}
-                    alt="uploaded"
-                    className="object-cover rounded-lg h-72 w-72"
-                  />
+                  <div className="relative">
+                    <motion.img
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 1 }}
+                      src={URL.createObjectURL(file)}
+                      alt="uploaded"
+                      className="object-cover rounded-lg h-72 w-72"
+                    />
+                    {loading && (
+                      <div className="absolute left-0 top-0 bg-opacity-10 rounded-lg z-10 w-full h-full bg-black flex items-center justify-center">
+                        <ClipLoader
+                          className="h-40 w-40"
+                          size={150}
+                          color={"white"}
+                        />
+                      </div>
+                    )}
+                  </div>
                 )}
               </label>
 
