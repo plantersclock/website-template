@@ -23,6 +23,8 @@ const BlogCard = ({
     image480Url
   );
 
+  console.log(resizedImageUrl);
+
   return (
     <Link to={`/admin/blog/${id}`}>
       <motion.div
@@ -35,14 +37,16 @@ const BlogCard = ({
         className="rounded-lg bg-white shadow-lg overflow-hidden"
       >
         <div className="overflow-hidden w-full h-72">
-          <LazyLoad>
-            <motion.img
-              animate={cardHovered ? { scale: 1.2 } : { scale: 1 }}
-              className="w-full h-72 object-cover"
-              src={image480Url || resizedImageUrl}
-              alt={imageUrl}
-            />
-          </LazyLoad>
+          {(image480Url || resizedImageUrl) && (
+            <LazyLoad>
+              <motion.img
+                animate={cardHovered ? { scale: 1.2 } : { scale: 1 }}
+                className="w-full h-72 object-cover"
+                src={image480Url || resizedImageUrl}
+                alt={imageUrl}
+              />
+            </LazyLoad>
+          )}
         </div>
 
         <div className="h-60 p-5 relative overflow-hidden">

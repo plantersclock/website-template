@@ -14,7 +14,7 @@ const useStorageThumbnails = (imageUrl, size, id = null, updated) => {
       if (id) {
         try {
           blogCollectionRef.doc(id).update({
-            image480Url: resizedImageUrl,
+            [`image${size.toString()}Url`]: resizedImageUrl,
           });
         } catch (error) {
           console.log(error);

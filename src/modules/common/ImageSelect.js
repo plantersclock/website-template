@@ -53,7 +53,7 @@ const ImageSelect = ({
           {docs &&
             docs.map((doc) => (
               <div
-                key={doc.title}
+                key={doc.id}
                 className={
                   selectedImage === doc.url
                     ? "flex border-t border-b cursor-pointer bg-blue-200"
